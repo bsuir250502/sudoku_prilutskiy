@@ -9,10 +9,11 @@ void help()
         ("Start the program and make sure u've got a task file in the same folder as the executable. \nAfter starting - wait for a moment, a nd u'l see the result\n");
 }
 
-void printCells(int **cells)
+void printCells(int ** cells)
 {
     FILE *file;
-    if (!file = fopen("solved.txt", "w+")) {
+    if (!file = fopen("solved.txt", "w+"))
+    {
         puts("Error reading the solution");
         freeAll(cells);
         exit(1);
@@ -29,7 +30,7 @@ void printCells(int **cells)
         }
         if (i == 2 || i == 5)
             puts("\n");
-        else
+        else 
             puts("");
     }
     for (int i = 0; i < 9; i++) {
@@ -41,11 +42,12 @@ void printCells(int **cells)
     fclose(file);
 }
 
-void load(int **cells)
+void load(int ** cells)
 {
 
     FILE *file;
-    if (!file = fopen("task.txt", "r+")) {
+    if (!file = fopen("task.txt", "r+"))
+    {
         puts("Error reading task file");
         freeAll(cells);
         exit(1);
@@ -58,7 +60,7 @@ void load(int **cells)
     fclose(file);
 }
 
-int rows(int **cells)
+int rows (int ** cells)
 {
     int repeats = 0;
     for (int value = 1; value < 10; value++) {
@@ -76,7 +78,7 @@ int rows(int **cells)
     return EXIT_SUCCESS;
 }
 
-int coloumns(int **cells)
+int coloumns(int ** cells)
 {
     int repeats = 0;
     for (int value = 1; value < 10; value++) {
@@ -95,7 +97,7 @@ int coloumns(int **cells)
 
 }
 
-int squares(int **cells)
+int squares(int ** cells)
 {
     int repeats = 0;
     for (int value = 1; value < 10; value++) {
@@ -117,7 +119,7 @@ int squares(int **cells)
     return EXIT_SUCCESS;
 }
 
-int checkCells(int **cells)
+int checkCells(int ** cells)
 {
     if (rows(cells) == 0) {
         if (coloumns(cells) == 0) {
@@ -131,39 +133,37 @@ int checkCells(int **cells)
     return 1;
 }
 
-int SudokuSolution(int **source, int i, int j)
+int SudokuSolution(int ** source, int i, int j)
 {
     int accepted = 0;
     int default_value = 0;
-    if (j >= 9) {
+    if (j >= 9){
         i++;
         j = 0;
     }
     if (i >= 9)
         return 1;
-    if (source[i][j] != 0)
-        default_value = 1;
+    if (source[i][j] != 0) default_value = 1;
     if (default_value)
         SudokuSolution(source, i, j + 1);
     if (!default_value)
-        for (int value = 1; value < 10; value++) {
+        for (int value = 1; value < 10; value++){
             source[i][j] = value;
-            if (checkCells(source) == 0) {
-                accepted = 1;
-                if (SudokuSolution(source, i, j + 1) == 1)
-                    break;
-                else
-                    accepted = 0;
-            }
+            if (checkCells(source) == 0){
+                    accepted = 1;
+                    if (SudokuSolution(source, i, j + 1) == 1)
+                        break;
+                    else accepted = 0;
+                }
         }
-    if (!accepted && !default_value) {
+    if (!accepted && !default_value){
         source[i][j] = 0;
         return 0;
     }
     return 1;
 }
 
-void freeAll(int **source)
+void freeAll (int ** source)
 {
     for (int i = 0; i < 9; i++)
         free(source[i]);
@@ -172,9 +172,9 @@ void freeAll(int **source)
 
 int main(int argc, char *argv[])
 {
-    int **cells = (int **) calloc(9, sizeof(int *));
+    int ** cells = (int**)calloc(9, sizeof(int *));
     for (int i = 0; i < 9; i++)
-        cells[i] = (int *) calloc(9, sizeof(int));
+        cells[i] = (int*)calloc(9, sizeof(int));
     if (argc > 1)
         if (strcmp(argv[1], "-h") == 0) {
             help();
